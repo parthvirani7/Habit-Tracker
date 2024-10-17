@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Habit Tracker App</title>
+
+  <!-- over view -->
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      background-color: #f4f4f9;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .navbar {
+      background-color: #007bff;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: #fff !important;
+    }
+
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .form-label {
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #007bff;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Habit Tracker</a>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card p-4">
+          <h3 class="card-title text-center">Create a New Habit</h3>
+          <form id="habitForm">
+            <div class="mb-3">
+              <label for="habitName" class="form-label">Habit Name</label>
+              <input type="text" class="form-control" id="habitName" placeholder="E.g., Morning Run">
+            </div>
+            <div class="mb-3">
+              <label for="habitDescription" class="form-label">Description</label>
+              <textarea class="form-control" id="habitDescription" rows="3" placeholder="Describe your habit..."></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="frequency" class="form-label">Frequency</label>
+              <select class="form-select" id="frequency">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="habitTags" class="form-label">Tags</label>
+              <input type="text" class="form-control" id="habitTags" placeholder="E.g., fitness, health">
+            </div>
+            <div class="mb-3">
+              <label for="reminderTime" class="form-label">Reminder Time</label>
+              <input type="time" class="form-control" id="reminderTime" value="08:00">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Create Habit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Habit List -->
+  <div class="container mt-5">
+    <h3 class="text-center">Your Habits</h3>
+    <div id="habitList" class="row mt-4"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Habit Tracker. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom JS -->
+  <script>
+    document.getElementById('habitForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const habitName = document.getElementById('habitName').value;
+      const habitDescription = document.getElementById('habitDescription').value;
+      const frequency = document.getElementById('frequency').value;
+      const habitTags = document.getElementById('habitTags').value;
+      const reminderTime = document.getElementById('reminderTime').value;
+
+      const habit = {
+        name: habitName,
+        description: habitDescription,
+        frequency: frequency,
+        tags: habitTags.split(',').map(tag => tag.trim()),
+        reminderTime: reminderTime,
+      };
+
+      // Display habit
+      addHabitToList(habit);
+
+      // Clear form
+      document.getElementById('habitForm').reset();
+    });
+
+    function addHabitToList(habit) {
+      const habitList = document.getElementById('habitList');
+      const habitCard = `
+        <div class="col-md-4 mb-4">
+          <div class="card p-3">
+            <h5>${habit.name}</h5>
+            <p>${habit.description}</p>
+            <small><strong>Frequency:</strong> ${habit.frequency}</small><br>
+            <small><strong>Tags:</strong> ${habit.tags.join(', ')}</small><br>
+            <small><strong>Reminder Time:</strong> ${habit.reminderTime}</small>
+          </div>
+        </div>
+      `;
+      habitList.innerHTML += habitCard;
+    }
+  </script>
+
+</body>
+</html>
